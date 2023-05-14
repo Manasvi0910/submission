@@ -11,6 +11,10 @@ Other Libraries used for this Submission:
 recharts: npm install recharts
 file-saver: npm install file-saver
 
+React Recharts is a charting library built for React.js. It allows you to create beautiful and interactive charts and graphs for your web applications. React Recharts is built on top of D3.js, a powerful data visualization library, and provides a simple and intuitive API for building complex charts with minimal coding. It supports various types of charts such as line, area, bar, scatter, pie, and more. Additionally, it offers a range of customization options such as colors, fonts, tooltips, animations, and responsiveness.
+
+FileSaver.js is a JavaScript library that provides a simple way to save files from the client-side web applications. It allows you to create and save files in the user's local file system, without the need for server-side processing. This library is useful in scenarios where you want to download a file generated on the client-side, such as a PDF report or CSV file. FileSaver.js uses the HTML5 download attribute to trigger the file download process, and it works on all modern browsers. It supports various file formats such as text, CSV, JSON, PDF, and images. With FileSaver.js, you can easily create and download files with just a few lines of code.
+
 ****This Submission has been hosted on netlify!**
 **https://manasvittt.netlify.app/********
 
