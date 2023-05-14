@@ -1,3 +1,5 @@
+**https://manasvittt.netlify.app/********
+
 # Getting Started with Create React App
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 ## Available Scripts
@@ -9,7 +11,8 @@ Other Libraries used for this Submission:
 recharts: npm install recharts
 file-saver: npm install file-saver
 
-**This Submission has been hosted on netlify!**
+****This Submission has been hosted on netlify!**
+**https://manasvittt.netlify.app/********
 
 **This Submission consists of main 3 files:
 App.js, Histogram.js, App.css**
