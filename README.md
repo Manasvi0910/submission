@@ -9,13 +9,12 @@ Other Libraries used for this Submission:
 recharts: npm install recharts
 file-saver: npm install file-saver
 
-This Submission has been hosted on netlify!
+**This Submission has been hosted on netlify!**
 
+**This Submission consists of main 3 files:
+App.js, Histogram.js, App.css**
 
-This Submission consists of main 3 files:
-App.js, Histogram.js, App.css
-
-Explaination of the code of App.js
+**Explaination of the code of App.js**
 This is a React component that displays a histogram of word occurrences from a text file and provides the ability to export the data to a CSV file. Here is a breakdown of the code:
 
 The first line imports the React library, which is used to create React components.
@@ -36,9 +35,8 @@ The return statement defines the JSX element that represents the UI of the compo
 
 Finally, the App component is exported as the default export of the module so that it can be used by other components or modules.
 
-...............................................................................
 
-Code: 
+**Code: **
 import React from 'react';
 import Histogram from './Histogram';
 import './App.css';
@@ -90,8 +88,9 @@ function App() {
 }
 
 export default App;
-...........................................................................
-Explaination of the code of Histogram.js
+
+
+**Explaination of the code of Histogram.js**
 This is a React component that renders a bar chart using the recharts library based on the data passed to it as a prop. Here is a breakdown of the code:
 
 The first line imports the React library, which is used to create React components.
@@ -115,9 +114,9 @@ The Bar component is used to render the bars in the chart, with the dataKey prop
 Finally, the Histogram component is exported as the default export of the module so that it can be used by other components or modules.
 
 In summary, this component uses the recharts library to render a bar chart that displays the frequency of words in the histogram data passed to it as a prop.
-..............................................................................
 
-Code: 
+
+**Code: **
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
@@ -134,9 +133,9 @@ function Histogram({ data }) {
 }
 
 export default Histogram;
-..............................................................................
 
-Explaination of the code of App.css:
+
+**Explaination of the code of App.css:**
 This is a CSS stylesheet defining styles for the HTML elements used in the React application.
 
 .App is a CSS class selector that sets the text-align property of the element with this class to center.
@@ -149,8 +148,8 @@ The :hover pseudo-class applies styles to the element when the mouse pointer is 
 
 @keyframes gradient is a CSS rule that defines an animation called gradient using the @keyframes at-rule. It defines three keyframes with different background-position values to create the scrolling effect of the animated-bg element. The animation property in .animated-bg applies this animation to the element.
 
-................................................................................
-Code:
+
+**Code:**
 .App {
   text-align: center;
 }
@@ -194,4 +193,3 @@ button:hover {
   }
 }
 
-................................................................................
