@@ -1,70 +1,197 @@
 # Getting Started with Create React App
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Available Scripts
-
-In the project directory, you can run:
-
 ### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
 ### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Other Libraries used for this Submission:
+recharts: npm install recharts
+file-saver: npm install file-saver
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This Submission has been hosted on netlify!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+This Submission consists of main 3 files:
+App.js, Histogram.js, App.css
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Explaination of the code of App.js
+This is a React component that displays a histogram of word occurrences from a text file and provides the ability to export the data to a CSV file. Here is a breakdown of the code:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The first line imports the React library, which is used to create React components.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The second line imports a custom Histogram component from a file named Histogram.js. This component is responsible for rendering the histogram based on the data passed to it as a prop.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The third line imports a CSS file named App.css, which contains styling information for the component.
 
-## Learn More
+The App function is defined, which is the main React component. It returns a JSX element that represents the UI of the component.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The useState hook from the React library is used to define a state variable named histogramData and a function named setHistogramData that can update the state.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The handleSubmit function is defined, which is called when the user clicks the "Submit" button. This function fetches the text file from the specified URL and processes the contents of the file to generate a histogram of word occurrences. The histogram data is then sorted by frequency and limited to the top 20 most frequent words.
 
-### Code Splitting
+The handleExport function is defined, which is called when the user clicks the "Export" button. This function converts the histogram data to a CSV file and downloads it to the user's computer.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The return statement defines the JSX element that represents the UI of the component. The header element contains the histogram and the export button if there is histogram data available, or the submit button if there is no data available. The animated-bg div contains a CSS-animated background.
 
-### Analyzing the Bundle Size
+Finally, the App component is exported as the default export of the module so that it can be used by other components or modules.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+...............................................................................
 
-### Making a Progressive Web App
+Code: 
+import React from 'react';
+import Histogram from './Histogram';
+import './App.css';
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+function App() {
+  const [histogramData, setHistogramData] = React.useState([]);
 
-### Advanced Configuration
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await fetch('https://www.terriblytinytales.com/test.txt');
+    const text = await response.text();
+    const words = text.toLowerCase().replace(/[^\w\s]/gi, '').split(/\s+/);
+    const wordMap = {};
+    words.forEach((word) => {
+      if (!wordMap[word]) {
+        wordMap[word] = 0;
+      }
+      wordMap[word]++;
+    });
+    const sortedData = Object.entries(wordMap).sort((a, b) => b[1] - a[1]).slice(0, 20);
+    setHistogramData(sortedData);
+  };
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+  const handleExport = () => {
+    const csv = 'Word,Count\n' + histogramData.map((d) => d.join(',')).join('\n');
+    const csvData = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const csvURL = window.URL.createObjectURL(csvData);
+    const tempLink = document.createElement('a');
+    tempLink.href = csvURL;
+    tempLink.setAttribute('download', 'histogram_data.csv');
+    tempLink.click();
+  };
 
-### Deployment
+  return (
+    <div className="App">
+      <header className="App-header">
+        {histogramData.length > 0 ? (
+          <>
+            <Histogram data={histogramData} />
+            <button onClick={handleExport}>Export</button>
+          </>
+        ) : (
+          <button onClick={handleSubmit}>Submit</button>
+        )}
+      </header>
+      <div className="animated-bg"></div>
+    </div>
+  );
+}
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+export default App;
+...........................................................................
+Explaination of the code of Histogram.js
+This is a React component that renders a bar chart using the recharts library based on the data passed to it as a prop. Here is a breakdown of the code:
 
-### `npm run build` fails to minify
+The first line imports the React library, which is used to create React components.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The second line imports several components from the recharts library, including BarChart, Bar, XAxis, YAxis, CartesianGrid, and Tooltip. These components are used to render the bar chart.
+
+The Histogram function is defined, which is a functional component that takes a prop named data.
+
+The function returns a JSX element that represents the bar chart using the BarChart component from recharts. The width and height props are used to specify the dimensions of the chart. The data prop is used to specify the data for the chart.
+
+The CartesianGrid component is used to render horizontal and vertical lines in the background of the chart.
+
+The XAxis component is used to render the x-axis of the chart, which represents the words in the histogram data. The dataKey prop is set to "0", which corresponds to the first element of each data point in the data prop.
+
+The YAxis component is used to render the y-axis of the chart, which represents the frequency of each word in the histogram data.
+
+The Tooltip component is used to display a tooltip when the user hovers over a bar in the chart, showing the word and its frequency.
+
+The Bar component is used to render the bars in the chart, with the dataKey prop set to "1", which corresponds to the second element of each data point in the data prop. The fill prop is used to set the color of the bars.
+
+Finally, the Histogram component is exported as the default export of the module so that it can be used by other components or modules.
+
+In summary, this component uses the recharts library to render a bar chart that displays the frequency of words in the histogram data passed to it as a prop.
+..............................................................................
+
+Code: 
+import React from 'react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+
+function Histogram({ data }) {
+  return (
+    <BarChart width={600} height={300} data={data}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="0" />
+      <YAxis />
+      <Tooltip />
+      <Bar dataKey="1" fill="#8884d8" />
+    </BarChart>
+  );
+}
+
+export default Histogram;
+..............................................................................
+
+Explaination of the code of App.css:
+This is a CSS stylesheet defining styles for the HTML elements used in the React application.
+
+.App is a CSS class selector that sets the text-align property of the element with this class to center.
+
+button is a CSS element selector that sets styles for all button elements. It sets the font-size, margin, padding, background-color, border, color, cursor, and border-radius properties.
+
+The :hover pseudo-class applies styles to the element when the mouse pointer is over it. In this case, it changes the background-color of the button element to a darker shade.
+
+.animated-bg is a CSS class selector that sets styles for an element with this class. It positions the element in the top-left corner of the viewport, sets its width and height to 100% of the viewport, and sets its z-index to -1 so that it appears behind other elements. It also applies a linear gradient background using the background property, and sets its background-size and animation properties to create a scrolling effect using CSS animations.
+
+@keyframes gradient is a CSS rule that defines an animation called gradient using the @keyframes at-rule. It defines three keyframes with different background-position values to create the scrolling effect of the animated-bg element. The animation property in .animated-bg applies this animation to the element.
+
+................................................................................
+Code:
+.App {
+  text-align: center;
+}
+
+button {
+  font-size: 20px;
+  margin: 20px;
+  padding: 10px 20px;
+  background-color: #008CBA;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #00557D;
+}
+
+.animated-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+................................................................................
